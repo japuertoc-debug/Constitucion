@@ -4,73 +4,343 @@ HTML
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio Constitucional</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <title>Portafolio Académico de Constitución Política | Johan Puerto</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #f8f9fa;
-            --text-color: #212529;
-            --primary-color: #1a365d;
-            --accent-color: #c5a880;
+            --bg-color: #f7fafc;
+            --text-color: #2d3748;
+            --primary-color: #0f172a; /* Azul medianoche muy elegante */
+            --accent-color: #0284c7;  /* Azul tecnológico */
             --card-bg: #ffffff;
+            --border-color: #e2e8f0;
         }
+
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-color); line-height: 1.6; }
-        header { background-color: var(--primary-color); color: white; padding: 60px 20px; text-align: center; border-bottom: 5px solid var(--accent-color); }
-        header h1 { font-size: 2.5rem; margin-bottom: 10px; font-weight: 700; letter-spacing: -0.5px; }
-        header p { font-size: 1.1rem; color: #e2e8f0; max-width: 600px; margin: 0 auto; font-weight: 300; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
-        .section-title { font-size: 1.8rem; color: var(--primary-color); margin-bottom: 20px; border-left: 4px solid var(--accent-color); padding-left: 10px; }
-        .about-box { background-color: var(--card-bg); padding: 30px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-bottom: 40px; }
-        .card { background-color: var(--card-bg); border-radius: 8px; padding: 25px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); transition: transform 0.2s ease; border-top: 3px solid var(--primary-color); }
-        .card:hover { transform: translateY(-5px); }
-        .card h3 { color: var(--primary-color); margin-bottom: 12px; font-size: 1.3rem; }
-        .card p { font-size: 0.95rem; color: #4a5568; margin-bottom: 15px; }
-        .card .tag { display: inline-block; background-color: #ebf8ff; color: #2b6cb0; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; font-weight: 600; }
-        .contact-section { background-color: var(--primary-color); color: white; padding: 40px; border-radius: 8px; text-align: center; }
-        .contact-section h2 { margin-bottom: 15px; }
-        .btn { display: inline-block; background-color: var(--accent-color); color: #1a365d; padding: 12px 24px; text-decoration: none; border-radius: 5px; font-weight: 600; margin-top: 15px; transition: background 0.2s; }
-        .btn:hover { background-color: #b3956b; color: white; }
-        footer { text-align: center; padding: 40px 20px; color: #718096; font-size: 0.9rem; }
+        
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg-color); 
+            color: var(--text-color); 
+            line-height: 1.7;
+        }
+
+        /* Encabezado Principal */
+        header { 
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); 
+            color: white; 
+            padding: 60px 20px; 
+            text-align: center;
+            border-bottom: 4px solid var(--accent-color);
+        }
+        
+        .header-container { max-width: 800px; margin: 0 auto; }
+        header h1 { font-size: 2.3rem; font-weight: 700; margin-bottom: 10px; letter-spacing: -0.5px; }
+        header .meta-info { font-size: 1.1rem; color: #38bdf8; font-weight: 500; margin-bottom: 15px; }
+        header p { font-size: 1rem; color: #94a3b8; font-weight: 300; }
+
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+
+        /* Universidad Info Banner */
+        .u-banner {
+            background-color: #fff;
+            border: 1px solid var(--border-color);
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: #64748b;
+        }
+        .u-banner strong { color: var(--primary-color); }
+
+        .section-title { 
+            font-size: 1.6rem; 
+            color: var(--primary-color); 
+            margin: 40px 0 20px 0; 
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .section-title::before {
+            content: '';
+            display: inline-block;
+            width: 6px;
+            height: 24px;
+            background-color: var(--accent-color);
+            border-radius: 4px;
+        }
+
+        /* Grid de Sabías que... */
+        .trivia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .trivia-card {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            position: relative;
+        }
+        .trivia-card .num {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            position: absolute;
+            top: 10px;
+            right: 15px;
+        }
+        .trivia-card p { font-size: 0.88rem; color: #475569; padding-top: 10px; }
+
+        /* Acordeones Interactivos */
+        .accordion-item {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin-bottom: 12px;
+            overflow: hidden;
+        }
+        
+        .accordion-header {
+            padding: 18px 25px;
+            background: #fff;
+            font-weight: 600;
+            color: var(--primary-color);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background 0.2s;
+        }
+        .accordion-header:hover { background: #f8fafc; }
+        .accordion-header::after {
+            content: '▼';
+            font-size: 0.8rem;
+            color: #94a3b8;
+            transition: transform 0.2s;
+        }
+
+        .accordion-content {
+            padding: 0 25px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s cubic-bezier(0,1,0,1);
+            background: #fafafa;
+        }
+        .accordion-content div { padding: 20px 0; color: #334155; font-size: 0.95rem; }
+        .accordion-content p { margin-bottom: 12px; }
+        .accordion-content ul { margin-left: 20px; margin-bottom: 12px; }
+
+        /* Estado Activo para JS */
+        .accordion-item.active .accordion-header { background: #f0fdf4; color: #0369a1; }
+        .accordion-item.active .accordion-header::after { transform: rotate(180deg); color: #0284c7; }
+        .accordion-item.active .accordion-content { max-height: 1000px; }
+
+        .tag-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+        .tag-item { background: #e0f2fe; color: #0369a1; font-size: 0.75rem; padding: 3px 10px; border-radius: 12px; font-weight: 500; }
+
+        footer { text-align: center; padding: 60px 20px; color: #94a3b8; font-size: 0.88rem; border-top: 1px solid var(--border-color); margin-top: 60px; }
     </style>
 </head>
 <body>
+
     <header>
-        <h1>Portafolio Constitucional</h1>
-        <p>Análisis jurídico, defensa de derechos fundamentales y estudio del ordenamiento constitucional.</p>
+        <div class="header-container">
+            <h1>Portafolio Académico de Constitución Política</h1>
+            <div class="meta-info">Johan Puerto Correa · Ingeniería de Sistemas · Semestre IV</div>
+            <p>Este blog recopila las reflexiones, análisis, preguntas generadoras y temas desarrollados durante el curso de Constitución Política.</p>
+        </div>
     </header>
+
     <div class="container">
-        <section class="about-box">
-            <h2 class="section-title">Sobre el Proyecto</h2>
-            <p>Bienvenido/a al espacio digital dedicado a la investigación y registro de casos constitucionales, control de convencionalidad y protección de derechos. Este portafolio compila estudios avanzados, acciones de tutela, recursos y ensayos críticos sobre la constitución vigente.</p>
-        </section>
-        <h2 class="section-title">Casos & Análisis Destacados</h2>
-        <section class="grid">
-            <div class="card">
-                <span class="tag">Derechos Fundamentales</span>
-                <h3>Acción de Tutela: Derecho a la Salud</h3>
-                <p>Análisis y estructura de demanda constitucional frente a la omisión de tratamientos de alto costo por parte de entidades prestadoras.</p>
+        
+        <div class="u-banner">
+            <div>📍 <strong>Universidad del Tolima</strong> — IDEAD</div>
+            <div>🏢 Bogotá, Colombia</div>
+        </div>
+
+        <!-- SECCIÓN: SABÍAS QUE -->
+        <h2 class="section-title">Sabías que...</h2>
+        <div class="trivia-grid">
+            <div class="trivia-card"><span class="num">01</span><p>La Constitución de 1991 fue elaborada por una Asamblea Nacional Constituyente integrada por diversos sectores políticos y sociales.</p></div>
+            <div class="trivia-card"><span class="num">02</span><p>Es conocida como la "Constitución de los Derechos" porque amplió significativamente la protección de los derechos fundamentales.</p></div>
+            <div class="trivia-card"><span class="num">03</span><p>La acción de tutela fue creada por la Constitución de 1991 para proteger de inmediato los derechos fundamentales vulnerados.</p></div>
+            <div class="trivia-card"><span class="num">04</span><p>En democracia, el voto no es el único mecanismo; existen herramientas como el referendo, plebiscito, consulta popular y cabildo abierto.</p></div>
+            <div class="trivia-card"><span class="num">05</span><p>La política no se limita al gobierno; está presente en decisiones colectivas de comunidades, universidades y organizaciones sociales.</p></div>
+            <div class="trivia-card"><span class="num">06</span><p>La Constitución reconoce a Colombia como una nación pluriétnica y multicultural, garantizando el respeto por la diversidad.</p></div>
+            <div class="trivia-card"><span class="num">07</span><p>Los derechos sociales, económicos y culturales incluyen la educación, la salud, la vivienda digna y el acceso a la cultura.</p></div>
+            <div class="trivia-card"><span class="num">08</span><p>La Constitución Política es la norma de mayor jerarquía (Norma de normas), toda ley debe ajustarse a ella.</p></div>
+            <div class="trivia-card"><span class="num">09</span><p>La separación de poderes busca evitar abusos distribuyendo las funciones en las ramas Ejecutiva, Legislativa y Judicial.</p></div>
+            <div class="trivia-card"><span class="num">10</span><p>La participación ciudadana es un pilar fundamental de la democracia, permitiendo influir activamente en el rumbo del país.</p></div>
+        </div>
+
+        <!-- SECCIÓN: PREGUNTAS GENERADORAS -->
+        <h2 class="section-title">Preguntas Generadoras</h2>
+        
+        <div class="accordion-item">
+            <div class="accordion-header">1. ¿Por qué la CPC se fundamenta en la defensa de derechos y la promoción de mecanismos de participación ciudadana?</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La Constitución Política de Colombia de 1991 se fundamenta en la defensa de derechos porque estableció un catálogo amplio de derechos fundamentales, sociales, económicos y culturales, reconociendo la dignidad humana como principio esencial del Estado.</p>
+                    <p>Además, promueve mecanismos de participación ciudadana como el voto, el referendo, la consulta popular, el cabildo abierto y la revocatoria del mandato, permitiendo que los ciudadanos intervengan directamente en las decisiones públicas.</p>
+                    <p>De esta manera, la CPC busca garantizar que el poder no se concentre únicamente en las autoridades, sino que la ciudadanía tenga un rol activo en la construcción de la democracia y en la protección de sus propios derechos.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="tag">Acción Popular</span>
-                <h3>Defensa del Medio Ambiente</h3>
-                <p>Estudio de caso sobre la protección de cuencas hidrográficas utilizando mecanismos de protección colectiva constitucional.</p>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">2. ¿Qué son los principios básicos de la democracia y cómo identificar los derechos fundamentales, los derechos sociales, económicos y culturales?</div>
+            <div class="accordion-content">
+                <div>
+                    <p>Los principios básicos de la democracia incluyen la participación ciudadana, la igualdad ante la ley, el respeto por los derechos humanos, la soberanía popular y el pluralismo político.</p>
+                    <p>A partir de estos principios se reconocen distintos tipos de derechos:</p>
+                    <ul>
+                        <li><strong>Derechos Fundamentales:</strong> Protegen libertades esenciales e inherentes al ser humano, como la vida, la integridad y la libertad de expresión.</li>
+                        <li><strong>Derechos Sociales, Económicos y Culturales:</strong> Buscan garantizar condiciones de vida dignas mediante el acceso a servicios colectivos como la educación, la salud, el trabajo y la cultura.</li>
+                    </ul>
+                    <p>Todos ellos son indispensables para el desarrollo integral de las personas y la construcción de una sociedad justa.</p>
+                </div>
             </div>
-            <div class="card">
-                <span class="tag">Investigación</span>
-                <h3>Control de Constitucionalidad</h3>
-                <p>Monografía académica analizando los alcances y límites de los decretos legislativos bajo estados de excepción.</p>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">3. ¿Cuáles fueron las continuidades y rupturas de los cambios constitucionales de Colombia?</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La historia constitucional de Colombia ha estado marcada por elementos de <strong>continuidad</strong>, como la existencia de un Estado organizado, la tradición republicana y la búsqueda constante de un marco jurídico que regule la convivencia social.</p>
+                    <p>Sin embargo, también se produjeron importantes <strong>rupturas</strong>, especialmente con la llegada de la Constitución de 1991. Esta transformó radicalmente la relación entre el Estado y los ciudadanos al fortalecer la democracia participativa, ampliar categóricamente el catálogo de derechos protegidos explícitamente por la tutela, y reconocer formalmente la diversidad étnica y cultural de la nación colombiana.</p>
+                </div>
             </div>
-        </section>
-        <section class="contact-section">
-            <h2>¿Buscas asesoría o colaboración jurídica?</h2>
-            <p>Puedes escribirme para discutir análisis de casos, consultorías académicas o litigio estratégico institucional.</p>
-            <a href="mailto:tu-correo@email.com" class="btn">Enviar Mensaje</a>
-        </section>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">4. ¿De qué manera ha evolucionado la interpretación del Estado y cómo se entiende un Estado constitucional?</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La interpretación del Estado ha evolucionado significativamente desde una concepción absolutista, donde el poder se concentraba de forma totalitaria en una sola figura, hasta el actual modelo de Estado constitucional.</p>
+                    <p>En un <strong>Estado constitucional</strong>, la Constitución rige como la norma suprema y absoluta; todas las autoridades públicas e instituciones del poder están plenamente sujetas a ella. Esto implica que cualquier ley o actuación estatal debe respetar obligatoriamente los derechos fundamentales.</p>
+                    <p>Colombia, estructurada como un <em>Estado Social de Derecho</em>, adopta fielmente esta visión al someter el ejercicio gubernamental a los lineamientos de la Constitución de 1991, blindando la dignidad humana.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">5. ¿Cómo interpretar el concept de política y sus repercusiones en el Estado Colombiano?</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La política puede interpretarse como la actividad organizada mediante la cual una sociedad gestiona el poder, toma decisiones colectivas estructurales y diseña soluciones para el interés común.</p>
+                    <p>En el Estado colombiano, la política influye directamente en la formulación de leyes viables, la administración transparente de recursos públicos y el blindaje de derechos ciudadanos. Permite dinamizar los canales entre el gobierno y la población a través de mecanismos como el voto libre, la veeduría y el control ciudadano legítimo.</p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- SECCIÓN: UNIDADES TEMÁTICAS -->
+        <h2 class="section-title">Unidades Temáticas</h2>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Unidad 1: Conceptos Fundamentales de la Política</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La política es una actividad fundamental para la organización de las sociedades. A través de ella se toman decisiones colectivas, se distribuye el poder y se establecen mecanismos institucionales idóneos para resolver conflictos. Aunque comúnmente se asocia con partidos políticos, impregna múltiples escenarios de la vida cotidiana.</p>
+                    <div class="tag-list">
+                        <span class="tag-item">Política como actividad humana</span>
+                        <span class="tag-item">Ejercicio del poder</span>
+                        <span class="tag-item">Ciencia social</span>
+                        <span class="tag-item">Organización de la sociedad</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Unidad 2: Estado y Organización Política de Colombia</div>
+            <div class="accordion-content">
+                <div>
+                    <p>El Estado se consolida como la institución jurídica y política encargada de garantizar el orden público, la sana convivencia y la protección integral de los derechos de toda la población civil. Su presencia estructurada organiza la vida en comunidad a través de leyes y autoridades representativas.</p>
+                    <div class="tag-list">
+                        <span class="tag-item">Estado</span>
+                        <span class="tag-item">Nación</span>
+                        <span class="tag-item">Gobierno</span>
+                        <span class="tag-item">Soberanía</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Unidad 3: Constitucionalismo y Estado Social de Derecho</div>
+            <div class="accordion-content">
+                <div>
+                    <p>El constitucionalismo tiene como eje central limitar el poder político mediante el establecimiento de una norma fundamental. Su propósito inequívoco es asegurar los derechos ciudadanos, impidiendo cualquier extralimitación o abuso de autoridad por parte de los gobernantes bajo la premisa del Estado Social de Derecho.</p>
+                    <div class="tag-list">
+                        <span class="tag-item">Constitucionalismo</span>
+                        <span class="tag-item">Constitución</span>
+                        <span class="tag-item">Separación de poderes</span>
+                        <span class="tag-item">Derechos fundamentales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Unidad 4: Democracia y Derechos Fundamentales</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La democracia constituye un sistema político dinámico cimentado firmemente en la participación e intervención activa de los ciudadanos en las directrices de la esfera pública. El correcto funcionamiento democrático se encuentra estrictamente condicionado por el respeto mutuo de las libertades individuales.</p>
+                    <div class="tag-list">
+                        <span class="tag-item">Participación ciudadana</span>
+                        <span class="tag-item">Igualdad</span>
+                        <span class="tag-item">Libertad</span>
+                        <span class="tag-item">Derechos fundamentales</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="accordion-item">
+            <div class="accordion-header">Unidad 5: Mecanismos de Participación Ciudadana</div>
+            <div class="accordion-content">
+                <div>
+                    <p>La promulgación de la Constitución de 1991 robusteció la democracia participativa en el territorio colombiano, rompiendo el esquema netamente representativo. Otorgó herramientas constitucionales directas para incidir e intervenir legalmente sobre los rumbos y decisiones del Estado.</p>
+                    <div class="tag-list">
+                        <span class="tag-item">Referendo</span>
+                        <span class="tag-item">Referendo derogatorio</span>
+                        <span class="tag-item">Referendo aprobatorio</span>
+                        <span class="tag-item">Revocatoria del mandato</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
     </div>
+
     <footer>
-        <p>&copy; 2026 Portafolio Constitucional. Desarrollado con Vercel.</p>
+        <p>&copy; 2026 Portafolio de Constitución Política — Johan Puerto Correa. Ingeniería de Sistemas, Universidad del Tolima IDEAD.</p>
     </footer>
+
+    <!-- Script JavaScript para la interactividad de los acordeones -->
+    <script>
+        document.querySelectorAll('.accordion-header').forEach(button => {
+            button.addEventListener('click', () => {
+                const accordionItem = button.parentElement;
+                
+                // Cierra los otros por comodidad visual
+                document.querySelectorAll('.accordion-item').forEach(item => {
+                    if (item !== accordionItem) item.classList.remove('active');
+                });
+
+                // Activa / Desactiva el actual
+                accordionItem.classList.toggle('active');
+            });
+        });
+    </script>
 </body>
 </html>
