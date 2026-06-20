@@ -4,18 +4,20 @@ HTML
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistemas & Constitución | Johan Puerto</title>
+    <title>Dashboard Constitucional | Johan Puerto</title>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-main: #0b0f19;
-            --bg-card: #111827;
+            --bg-main: #060913;
+            --bg-sidebar: #0b1120;
+            --bg-card: #111a2e;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
             --accent: #38bdf8;       
-            --accent-hover: #0284c7;
-            --border: #1f2937;
-            --success: #34d399;
+            --accent-glow: rgba(56, 189, 248, 0.3);
+            --border: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -24,344 +26,425 @@ HTML
             font-family: 'Plus Jakarta Sans', sans-serif; 
             background-color: var(--bg-main); 
             color: var(--text-main); 
-            line-height: 1.7;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
         }
 
-        header { 
-            background: radial-gradient(circle at top right, rgba(56, 189, 248, 0.12), transparent), #0f172a;
-            padding: 60px 20px; 
-            text-align: center;
+        /* ================= SIDEBAR LATERAL NAVEGACIÓN ================= */
+        aside {
+            width: 280px;
+            background-color: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 25px;
+            flex-shrink: 0;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 25px;
             border-bottom: 1px solid var(--border);
         }
-        
-        .header-box h1 { font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 10px; letter-spacing: -0.5px; }
-        .badge { 
-            font-family: 'JetBrains Mono', monospace;
-            background: rgba(56, 189, 248, 0.1);
-            color: var(--accent);
-            padding: 5px 14px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            display: inline-block;
-            margin-bottom: 15px;
-        }
-        header p { font-size: 1rem; color: var(--text-muted); max-width: 750px; margin: 0 auto; }
-
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-
-        .info-bar {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 15px 25px;
-            border-radius: 12px;
+        .brand-logo {
+            width: 32px;
+            height: 32px;
+            background: var(--accent);
+            border-radius: 8px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 35px;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-family: 'JetBrains Mono', monospace;
+            box-shadow: 0 0 15px var(--accent-glow);
         }
-        .info-bar span strong { color: #fff; }
+        .brand-text h2 { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .brand-text p { font-size: 0.75rem; color: var(--accent); font-family: 'JetBrains Mono', monospace; }
 
-        /* MENÚ DE BOTONES INTERACTIVOS (TABS) */
-        .nav-buttons {
-            display: flex;
-            gap: 12px;
-            margin-bottom: 35px;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
+        .menu-group { margin-top: 30px; display: flex; flex-direction: column; gap: 8px; }
+        .menu-label { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; color: #475569; text-transform: uppercase; margin-left: 10px; margin-bottom: 5px; }
         
-        .tab-btn {
-            background: var(--bg-card);
+        .nav-btn {
+            background: transparent;
             color: var(--text-muted);
-            border: 1px solid var(--border);
-            padding: 14px 28px;
-            border-radius: 10px;
+            border: 1px solid transparent;
+            padding: 12px 15px;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            text-align: left;
             transition: all 0.2s ease;
-            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
         }
-        .tab-btn:hover {
+        .nav-btn:hover {
             color: #fff;
-            border-color: rgba(56, 189, 248, 0.5);
+            background: rgba(255,255,255,0.02);
+            border-color: rgba(56, 189, 248, 0.2);
         }
-        .tab-btn.active {
-            background: var(--accent);
-            color: #0b0f19;
-            border-color: var(--accent);
-            box-shadow: 0 4px 20px rgba(56, 189, 248, 0.25);
+        .nav-btn.active {
+            background: linear-gradient(90deg, rgba(56, 189, 248, 0.15), transparent);
+            color: var(--accent);
+            border-left: 4px solid var(--accent);
+            font-weight: 700;
         }
 
-        /* Secciones de Contenido */
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.4s ease forwards;
+        .sidebar-footer {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid var(--border);
+            padding: 15px;
+            border-radius: 10px;
+            font-size: 0.8rem;
         }
+        .sidebar-footer p { color: var(--text-muted); margin-bottom: 5px; }
+        .sidebar-footer strong { color: #fff; }
+
+        /* ================= CONTENEDOR PRINCIPAL INTERFAZ ================= */
+        main {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Panel Superior Informativo */
+        .top-bar {
+            height: 70px;
+            background: var(--bg-sidebar);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 40px;
+            flex-shrink: 0;
+        }
+        .system-status { display: flex; gap: 20px; font-size: 0.85rem; font-family: 'JetBrains Mono', monospace; }
+        .status-item { display: flex; align-items: center; gap: 8px; color: var(--text-muted); }
+        .status-dot { width: 8px; height: 8px; background: var(--success); border-radius: 50%; box-shadow: 0 0 8px var(--success); }
+        
+        .action-links { display: flex; gap: 15px; }
+        .link-btn {
+            background: #1e293b;
+            color: #fff;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .link-btn:hover { background: var(--accent); color: #000; box-shadow: 0 0 10px var(--accent-glow); }
+        .link-btn.primary { background: var(--accent); color: #000; border: none; }
+        .link-btn.primary:hover { background: #7dd3fc; }
+
+        /* Contenido Scrolleable */
+        .content-area {
+            flex-grow: 1;
+            overflow-y: auto;
+            padding: 40px;
+        }
+
+        .tab-content { display: none; animation: slideUp 0.3s ease forwards; }
         .tab-content.active { display: block; }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* Estilo de Tarjetas y Bloques */
+        /* Widgets y Tarjetas Robustas */
+        .dashboard-header { margin-bottom: 30px; }
+        .dashboard-header h1 { font-size: 1.8rem; color: #fff; margin-bottom: 5px; }
+        .dashboard-header p { color: var(--text-muted); font-size: 0.95rem; }
+
         .card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-radius: 14px;
-            padding: 35px;
+            border-radius: 12px;
+            padding: 30px;
             margin-bottom: 25px;
+            position: relative;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
-        .card h3 { color: #fff; font-size: 1.4rem; margin-bottom: 15px; display: flex; gap: 10px; align-items: center; }
-        .card h3 span { color: var(--accent); font-family: 'JetBrains Mono', monospace; font-size: 1.1rem; }
-        .card p { color: var(--text-muted); font-size: 1rem; margin-bottom: 15px; text-align: justify; }
-        .card strong { color: #fff; font-weight: 600; }
+        .card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            border-radius: 12px 12px 0 0;
+        }
+        .card h3 { font-size: 1.3rem; margin-bottom: 15px; color: #fff; display: flex; align-items: center; gap: 10px; }
+        .card h3 span { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.95rem; background: rgba(56,189,248,0.08); padding: 2px 8px; border-radius: 4px; }
+        .card p { color: #d1d5db; font-size: 0.98rem; text-align: justify; margin-bottom: 15px; }
 
-        /* Bloques de conexión con Ingeniería */
-        .sys-note {
-            background: rgba(16, 185, 129, 0.05);
+        .sys-box {
+            background: rgba(16, 185, 129, 0.04);
+            border: 1px solid rgba(16, 185, 129, 0.15);
             border-left: 4px solid var(--success);
             padding: 15px 20px;
-            border-radius: 4px 8px 8px 4px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            color: #a7f3d0;
             margin-top: 15px;
-            font-size: 0.95rem;
-        }
-        .sys-note strong { color: var(--success); font-family: 'JetBrains Mono', monospace; }
-
-        .sub-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-            gap: 12px;
-            margin-top: 20px;
-        }
-        .sub-tag {
-            background: #1f2937;
-            color: #e5e7eb;
-            font-size: 0.85rem;
-            padding: 8px 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: 500;
-            border: 1px solid #374151;
         }
 
-        /* Sabías que (Grid) */
-        .facts-grid {
+        .tag-container { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
+        .tag { background: #1e293b; color: #e2e8f0; font-size: 0.8rem; padding: 5px 12px; border-radius: 6px; border: 1px solid #334155; }
+
+        /* Grid de Datos Informativos */
+        .grid-layout {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(310px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
         }
-        .fact-box {
+        .interactive-box {
             background: var(--bg-card);
             border: 1px solid var(--border);
             padding: 25px;
-            border-radius: 14px;
-            position: relative;
-            transition: border-color 0.2s;
+            border-radius: 12px;
+            transition: all 0.2s;
         }
-        .fact-box:hover { border-color: rgba(56, 189, 248, 0.3); }
-        .fact-box .id {
-            font-family: 'JetBrains Mono', monospace;
-            color: var(--accent);
-            font-weight: 600;
-            font-size: 1rem;
-            margin-bottom: 10px;
-            display: block;
-        }
-        .fact-box p { color: #d1d5db; font-size: 0.95rem; text-align: justify; }
+        .interactive-box:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .interactive-box .code-id { font-family: 'JetBrains Mono', monospace; color: var(--accent); font-size: 0.85rem; margin-bottom: 10px; display: block; }
+        .interactive-box h4 { color: #fff; margin-bottom: 10px; font-size: 1.1rem; }
+        .interactive-box p { color: var(--text-muted); font-size: 0.9rem; text-align: justify; }
 
-        footer {
-            text-align: center;
-            padding: 50px 20px;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-            border-top: 1px solid var(--border);
-            margin-top: 60px;
+        /* Consola Simulada */
+        .terminal-sim {
+            background: #000;
             font-family: 'JetBrains Mono', monospace;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            color: #34d399;
+            font-size: 0.85rem;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
         }
+
+        /* Scrollbar Personalizado */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-main); }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #334155; }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="header-box">
-            <span class="badge">👨‍💻 johan_puerto // sistemas_ut</span>
-            <h1>Constitución Política y Pensamiento Sistémico</h1>
-            <p>Bitácora analítica avanzada de Johan Puerto Correa. Un examen estructurado sobre las instituciones del Estado, las dinámicas de poder de Colombia y su convergencia con la gestión de infraestructura tecnológica.</p>
-        </div>
-    </header>
+    <!-- ================= BARRA LATERAL (SIDEBAR DE CONTROL) ================= -->
+    <aside>
+        <div class="top-sidebar">
+            <div class="brand">
+                <div class="brand-logo">&lt;/&gt;</div>
+                <div class="brand-text">
+                    <h2>PORTAFOLIO v2.0</h2>
+                    <p>johan_puerto.sys</p>
+                </div>
+            </div>
 
-    <div class="container">
+            <div class="menu-group">
+                <span class="menu-label">Navegación</span>
+                <button class="nav-btn active" onclick="switchTab(event, 'inicio')">💻 [00] Inicialización</button>
+                <button class="nav-btn" onclick="switchTab(event, 'preguntas')">❓ [01] Nodos de Análisis</button>
+                <button class="nav-btn" onclick="switchTab(event, 'unidades')">📘 [02] Módulos UT</button>
+                <button class="nav-btn" onclick="switchTab(event, 'datos')">💡 [03] Matriz de Datos</button>
+            </div>
+            
+            <div class="menu-group">
+                <span class="menu-label">Herramientas</span>
+                <button class="nav-btn" onclick="runAuditor()"><span style="color: var(--success)">⚡</span> Ejecutar Auditoría</button>
+            </div>
+        </div>
+
+        <div class="sidebar-footer">
+            <p>Estudiante:</p>
+            <strong>Johan Puerto Correa</strong>
+            <p style="margin-top: 5px; font-size: 0.75rem;">Sistemas IV — IDEAD</p>
+        </div>
+    </aside>
+
+    <!-- ================= ÁREA DE CONTENIDO DINÁMICO ================= -->
+    <main>
         
-        <div class="info-bar">
-            <span>🏛️ <strong>Universidad del Tolima</strong> — IDEAD</span>
-            <span>💻 Ingeniería de Sistemas (Semestre IV)</span>
-            <span>📍 Bogotá, Colombia</span>
-        </div>
-
-        <!-- BOTONES DE NAVEGACIÓN -->
-        <div class="nav-buttons">
-            <button class="tab-btn active" onclick="switchTab(event, 'inicio')">💻 Presentación del Sistema</button>
-            <button class="tab-btn" onclick="switchTab(event, 'preguntas')">❓ Nodos Problematizadores</button>
-            <button class="tab-btn" onclick="switchTab(event, 'unidades')">📘 Módulos Temáticos</button>
-            <button class="tab-btn" onclick="switchTab(event, 'datos')">💡 Datos de Control</button>
-        </div>
-
-        <!-- SECCIÓN 1: INICIO -->
-        <div id="inicio" class="tab-content active">
-            <div class="card">
-                <h3><span>00 //</span> Introducción e Impacto Interdisciplinario</h3>
-                <p>Este portafolio académico recopila las investigaciones, apropiaciones teóricas y debates desarrollados a lo largo del semestre en la cátedra de Constitución Política. El propósito fundamental es entender la Carta Magna no como un compendio estático de leyes abstractas, sino como la infraestructura matriz que define las libertades de los ciudadanos, las fronteras institucionales y el balance del poder en el territorio nacional.</p>
-                <p><strong>La visión desde la Ingeniería de Sistemas:</strong> Una Constitución opera exactamente igual al sistema operativo central de una red de datos compleja. El Artículo 4 establece que la Constitución es 'norma de normas', es decir, la regla de mayor jerarquía o el kernel del sistema. Las leyes comunes son aplicaciones que corren sobre ese kernel; si una aplicación tiene un bug o contradice la arquitectura principal, la Corte Constitucional (el depurador o debugger) la declara inexequible para mantener la estabilidad del entorno democrático.</p>
-                <div class="sys-note">
-                    <strong>[SISTEMA_LOG]:</strong> Este portafolio integra análisis socio-jurídico con la perspectiva técnica de la gestión de la información en el Estado moderno.
-                </div>
+        <!-- BARRA SUPERIOR -->
+        <div class="top-bar">
+            <div class="system-status">
+                <div class="status-item"><div class="status-dot"></div> SYS_STATUS: ONLINE</div>
+                <div class="status-item">KERNEL: CPC_1991</div>
+                <div class="status-item">REPOSITORIO: VERCEL_LIVE</div>
+            </div>
+            <div class="action-links">
+                <a href="https://github.com" target="_blank" class="link-btn">Ver Código Source</a>
+                <a href="mailto:johan.puerto@ut.edu.co" class="link-btn primary">Enviar Consulta</a>
             </div>
         </div>
 
-        <!-- SECCIÓN 2: PREGUNTAS -->
-        <div id="preguntas" class="tab-content">
-            <div class="card">
-                <h3><span>P1 //</span> Fundamentación de Derechos y Mecanismos Participativos</h3>
-                <p>La Constitución Política de Colombia (CPC) de 1991 rompió con el modelo cerrado anterior para cimentarse sobre la <strong>defensa de la dignidad humana</strong> y la soberanía popular. Eleva al ciudadano a la categoría de actor central del poder político. No basta con que el Estado declare los derechos; es necesario proveer los canales interactivos para que la sociedad civil pueda exigir su cumplimiento y participar activamente en la toma de decisiones públicas.</p>
-                <p>Por ello, se crearon los mecanismos de participación directa (Artículo 103: voto, plebiscito, referendo, consulta popular, cabildo abierto, iniciativa legislativa y revocatoria del mandato). Estos evitan el monopolio del poder gubernamental y le otorgan al pueblo herramientas legítimas de control y auditoría social.</p>
-                <div class="sys-note">
-                    <strong>[PERSPECTIVA_IT]:</strong> En ingeniería, los mecanismos de participación equivalen a las Interfaces de Usuario (UI) y APIs que permiten a las bases de datos externas enviar solicitudes de cambio directas al servidor central del gobierno.
+        <!-- CONTENIDOS DESPLEGABLES -->
+        <div class="content-area">
+
+            <!-- TAB 00: INICIO -->
+            <div id="inicio" class="tab-content active">
+                <div class="dashboard-header">
+                    <h1>[00] Inicialización del Sistema</h1>
+                    <p>Mapeo estructural y abstracción de la Constitución Política aplicados a entornos sistémicos complejos.</p>
+                </div>
+                <div class="card">
+                    <h3><span>OBJ</span> Introducción Interdisciplinaria</h3>
+                    <p>Esta plataforma ha sido desarrollada como entorno de control y bitácora interactiva para compilar los contenidos académicos del curso de Constitución Política del programa de Ingeniería de Sistemas en la Universidad del Tolima. El eje central es decodificar los fundamentos de la Carta Magna, entendiendo sus leyes y mecanismos como reglas operativas lógicas indispensables para que la red social colombiana funcione en equilibrio.</p>
+                    <p><strong>Analogía Estructural:</strong> En informática, la Constitución opera de la misma manera que el núcleo o kernel en un sistema operativo. El Artículo 4 establece su supremacía (Norma de normas); cualquier otra ley (aplicación) que corra sobre este entorno debe compilar perfectamente con sus directrices. Si se detecta una inconsistencia, el Tribunal Constitucional actúa como un depurador del sistema eliminando la excepción legal.</p>
+                    <div class="sys-box">
+                        <strong>[LOG]:</strong> Entorno web optimizado para la sustentación académica de las unidades temáticas.
+                    </div>
                 </div>
             </div>
 
-            <div class="card">
-                <h3><span>P2 //</span> Democracia y Clasificación de Derechos Ciudadanos</h3>
-                <p>Los principios fundamentales de nuestra democracia giran en torno al pluralismo, la equidad ante la ley, la descentralización y la separación de funciones. Dentro de esta estructura, los derechos se clasifican jerárquicamente para su correcto procesamiento y protección:</p>
-                <p>• <strong>Derechos Fundamentales (Primera Generación):</strong> Incluyen el derecho a la vida (Art. 11), la igualdad, el debido proceso (Art. 29) y el Habeas Corpus. Son de aplicación inmediata y protegen el núcleo esencial del ser humano.</p>
-                <p>• <strong>Derechos Sociales, Económicos y Culturales - DESC (Segunda Generación):</strong> Comprenden la salud, la educación formal, la vivienda digna y el derecho al trabajo. Requieren de políticas públicas, asignación presupuestal y desarrollo de infraestructura estatal para materializarse plenamente.</p>
-                <div class="sys-note">
-                    <strong>[CONEXIÓN_SISTEMAS]:</strong> El derecho fundamental al buen nombre y a la intimidad (Art. 15) se entrelaza hoy con la seguridad informática mediante la Ley de Habeas Data (Ley 1581). Los ingenieros somos los responsables directos de diseñar algoritmos que garanticen la protección de los datos personales de los colombianos.
+            <!-- TAB 01: PREGUNTAS GENERADORAS -->
+            <div id="preguntas" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>[01] Nodos Problematizadores</h1>
+                    <p>Solución analítica fundamentada a las interrogantes planteadas en los encuentros académicos.</p>
+                </div>
+
+                <div class="card">
+                    <h3><span>P_01</span> Defensa de Derechos y Canales Participativos</h3>
+                    <p>La Constitución Política de Colombia (CPC) de 1991 reestructuró los cimientos del Estado para blindar de manera prioritaria la dignidad humana. Para que esta protección no fuera meramente teórica, se programaron en su arquitectura los mecanismos de participación directa del Artículo 103 (el voto, el referendo, el plebiscito, la consulta popular, el cabildo abierto y la revocatoria del mandato). Estos canales actúan como controladores lógicos que distribuyen el poder, permitiendo que los ciudadanos auditen y participen de forma vinculante en las decisiones estatales.</p>
+                </div>
+
+                <div class="card">
+                    <h3><span>P_02</span> Taxonomía de Derechos y Pilares de la Democracia</h3>
+                    <p>La democracia representativa y participativa requiere un marco estricto de igualdad y pluralismo. En consonancia con esto, los derechos en Colombia se clasifican para su correcto procesamiento y amparo legal:</p>
+                    <p>• <strong>Derechos Fundamentales (Art. 11 al 41):</strong> Salvaguardas críticas de primera generación con aplicación inmediata (vida, debido proceso, libertad de opinión), el núcleo intocable del sistema humano.</p>
+                    <p>• <strong>Derechos Sociales, Económicos y Culturales - DESC:</strong> Derechos colectivos de segunda generación (educación, salud, vivienda) que demandan infraestructura presupuestal y políticas activas del Estado para su despliegue.</p>
+                    <div class="tag-container">
+                        <span class="tag">Habeas Data (Art. 15)</span>
+                        <span class="tag">Debido Proceso</span>
+                        <span class="tag">Pluralismo</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3><span>P_03</span> Transición Normativa: Continuidades y Rupturas (1886 - 1991)</h3>
+                    <p>El desarrollo legal del país registra continuidades institucionales claras, como el mantenimiento del sistema de República unitaria centralizada y la clásica división tripartita del poder público. Sin embargo, 1991 marcó una ruptura de paradigma contundente frente a la rígida constitución de 1886: se desmontó el Estado de Derecho confesional y de democracia cerrada para dar paso a un Estado Social de Derecho incluyente, laico, multicultural y garantista, equipado con la Acción de Tutela.</p>
+                </div>
+
+                <div class="card">
+                    <h3><span>P_04</span> Evolución de la Arquitectura de Estado</h3>
+                    <p>La interpretación política ha migrado desde modelos de centralización totalitaria o absolutista hacia el modelo contemporáneo de Estado Constitucional. Bajo esta estructura, las autoridades públicas pierden la capacidad de actuar arbitrariamente; el ejercicio de gobierno está limitado por reglas superiores escritas, obligando a todas las ramas a coordinarse mediante controles cruzados y total obediencia a la soberanía constitucional.</p>
+                </div>
+
+                <div class="card">
+                    <h3><span>P_05</span> Variables del Concepto Político en el Estado Colombiano</h3>
+                    <p>La política debe abstraerse como la ciencia encargada de procesar las necesidades comunes, regular las estructuras de poder y distribuir equitativamente el presupuesto fiscal. En el ecosistema colombiano, la madurez política afecta directamente la asignación tecnológica, el desarrollo de infraestructura de conectividad y la transparencia en los procesos de auditoría estatal.</p>
                 </div>
             </div>
 
-            <div class="card">
-                <h3><span>P3 //</span> Transiciones Históricas: Del Esfuerzo de 1886 a la Ruptura de 1991</h3>
-                <p>La evolución constitucional colombiana muestra marcadas <strong>continuidades</strong>, como la preservación del modelo de República unitaria, la fe en la codificación escrita de las normas y el mantenimiento de las tres ramas tradicionales del poder público. Sin embargo, el año 1991 significó una profunda <strong>ruptura paradigmática</strong> frente a la Constitución de 1886.</p>
-                <p>La Constitución de 1886 estructuraba un Estado de Derecho estrictamente legalista, centralizado, católico como religión oficial y con una democracia puramente representativa. La Constitución de 1991 dio paso al <strong>Estado Social de Derecho</strong>: descentralizado, con libertad de cultos, reconocimiento explícito de la diversidad pluriétnica y multicultural, y el nacimiento de la Acción de Tutela como mecanismo de protección express de los derechos humanos frente a las omisiones del poder.</p>
-            </div>
+            <!-- TAB 02: UNIDADES TEMÁTICAS -->
+            <div id="unidades" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>[02] Núcleos Temáticos abordados</h1>
+                    <p>Compendio conceptual desarrollado a lo largo de las tutorías presenciales y virtuales.</p>
+                </div>
 
-            <div class="card">
-                <h3><span>P4 //</span> Del Estado Absolutista al Estado Constitucional Moderno</h3>
-                <p>Históricamente, el Estado transitó desde monarquías absolutistas (donde el gobernante concentraba la totalidad del poder sin restricciones externas) hasta el concepto contemporáneo de <strong>Estado Constitucional</strong>. En esta última visión, el ejercicio del poder está completamente limitado por la Constitución.</p>
-                <p>Todas las instituciones estatales, fuerzas militares y ramas políticas están supeditadas a la Carta Magna. Esto garantiza que las mayorías políticas de turno no aprueben leyes arbitrarias que destruyan las garantías básicas de las minorías sociales, afianzando el equilibrio, el control cruzado (checks and balances) y el imperio del derecho.</p>
-            </div>
-
-            <div class="card">
-                <h3><span>P5 //</span> El Concepto de Política y su Impacto en el Desarrollo Colombiano</h3>
-                <p>La política debe definirse científicamente como la actividad de organización e intermediación social orientada a la toma de decisiones colectivas, la distribución de recursos públicos y el procesamiento pacífico de los conflictos de una comunidad. En Colombia, las decisiones políticas determinan directamente las políticas fiscales, el acceso a la educación superior y el desarrollo industrial.</p>
-                <div class="sys-note">
-                    <strong>[INGENIERÍA_Y_POLÍTICA]:</strong> La política pública de conectividad (MinTIC) determina qué zonas rurales de Colombia reciben infraestructura de red. Como ingenieros, el entendimiento político nos permite diseñar soluciones tecnológicas con alto sentido de inclusión social y ética algorítmica.
+                <div class="grid-layout">
+                    <div class="interactive-box">
+                        <span class="code-id">MODULO_01</span>
+                        <h4>Conceptos Clave de la Política</h4>
+                        <p>Análisis de la política como una actividad humana natural encargada de organizar comunidades y canalizar disputas de poder. Definición de legitimidad y soberanía.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">MODULO_02</span>
+                        <h4>Anatomía del Estado Colombiano</h4>
+                        <p>Estudio de los elementos del Estado (Población, Territorio, Soberanía) y revisión de la separación funcional de las Ramas Ejecutiva, Legislativa y Judicial junto a los órganos de control.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">MODULO_03</span>
+                        <h4>Estado Social de Derecho</h4>
+                        <p>El constitucionalismo moderno como un cortafuegos contra los abusos de autoridad, priorizando la equidad social material sobre la igualdad puramente teórica en el papel.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">MODULO_04</span>
+                        <h4>Democracia & Derechos</h4>
+                        <p>Evaluación de las libertades individuales como el prerrequisito computacional para el correcto procesamiento de elecciones participativas y pluralistas legítimas.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">MODULO_05</span>
+                        <h4>Mecanismos Ciudadanos</h4>
+                        <p>Desglose de los protocolos legales para activar las herramientas de participación del pueblo y uso de la Acción de Tutela (Art. 86) como recurso de emergencia inmediata.</p>
+                    </div>
                 </div>
             </div>
+
+            <!-- TAB 03: DATOS CLAVE -->
+            <div id="datos" class="tab-content">
+                <div class="dashboard-header">
+                    <h1>[03] Matriz de Datos Constitucionales</h1>
+                    <p>Hechos de control, historia y dinámicas fundamentales del ordenamiento legal en formato de microdatos.</p>
+                </div>
+
+                <div class="grid-layout">
+                    <div class="interactive-box">
+                        <span class="code-id">#DATA_01 // SÉPTIMA PAPELETA</span>
+                        <p>La Constitución de 1991 se originó a través de un movimiento estudiantil que insertó un voto extra informal en los comicios de 1990, forzando la apertura democrática.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">#DATA_02 // COMPILADOR DE SEGURIDAD</span>
+                        <p>La Corte Constitucional actúa como el debugger del ordenamiento, revisando las leyes emitidas por el Congreso para evitar errores de sintaxis legal frente al código matriz.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">#DATA_03 // LEY DE HABEAS DATA</span>
+                        <p>Derivado del Artículo 15 constitucional, la Ley 1581 regula el control de la información digital, obligando a los ingenieros de sistemas a garantizar la privacidad de las bases de datos de los usuarios.</p>
+                    </div>
+                    <div class="interactive-box">
+                        <span class="code-id">#DATA_04 // NEUTRALIDAD ESTATAL</span>
+                        <p>La Carta del 91 declaró a Colombia un Estado laico, eliminando la religión católica oficial de 1886 y promoviendo un procesamiento social multicultural libre.</p>
+                    </div>
+                </div>
+
+                <!-- CONSOLA DE AUDITORÍA INTERACTIVA -->
+                <div class="terminal-sim" id="terminal-log">
+                    $ systemctl status portafolio_constitucional.service<br>
+                    > Esperando comando de auditoría...
+                </div>
+            </div>
+
         </div>
+    </main>
 
-        <!-- SECCIÓN 3: UNIDADES -->
-        <div id="unidades" class="tab-content">
-            <div class="card">
-                <h3><span>U1 //</span> Conceptos Fundamentales de la Política</h3>
-                <p>Estudio introductorio de la dimensión política como un fenómeno humano indispensable para la convivencia. Revisión analítica del concepto de poder legítimo, la autoridad delegada por el pueblo y el nacimiento de las ciencias sociales dedicadas a evaluar cómo se organizan las sociedades complejas.</p>
-                <div class="sub-grid">
-                    <div class="sub-tag">Teoría del Poder</div>
-                    <div class="sub-tag">Estructura Social</div>
-                    <div class="sub-tag">Resolución de Conflictos</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><span>U2 //</span> Estado y Organización Política de Colombia</h3>
-                <p>Análisis del Estado colombiano como persona jurídica de derecho público. Estudio de los elementos constitutivos (Población, Territorio, Soberanía). Desglose estructural de la Rama Ejecutiva (Presidencia, Ministerios), Rama Legislativa (Congreso de la República) y Rama Judicial (Altas Cortes), sumado a los entes de control autónomos (Procuraduría, Contraloría y Defensoría del Pueblo).</p>
-                <div class="sub-grid">
-                    <div class="sub-tag">Ramas del Poder Público</div>
-                    <div class="sub-tag">Órganos de Control</div>
-                    <div class="sub-tag">Descentralización</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><span>U3 //</span> Constitucionalismo y Estado Social de Derecho</h3>
-                <p>Examen histórico de las luchas sociales que limitaron el absolutismo monárquico y dieron origen a las constituciones escritas. Estudio del Estado Social de Derecho (Artículo 1 de la CPC), el cual le impone al Estado la obligación prestacional activa de intervenir en la economía y los servicios públicos para asegurar que la igualdad y la justicia de los ciudadanos sean reales y no meramente teóricas.</p>
-                <div class="sub-grid">
-                    <div class="sub-tag">Bloque de Constitucionalidad</div>
-                    <div class="sub-tag">Norma de Normas</div>
-                    <div class="sub-tag">Supremacía Jurídica</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><span>U4 //</span> Democracia y Derechos Fundamentales</h3>
-                <p>Análisis crítico sobre los requisitos operacionales para que exista una democracia real: pluralismo ideológico, voto libre, garantías para la oposición política y libertad de prensa. Estudio detallado de los artículos de derechos fundamentales y su defensa a nivel nacional e internacional a través del Sistema Interamericano de Derechos Humanos.</p>
-                <div class="sub-grid">
-                    <div class="sub-tag">Garantías Civiles</div>
-                    <div class="sub-tag">Derechos de Primera Generación</div>
-                    <div class="sub-tag">Pluralismo Democrático</div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3><span>U5 //</span> Mecanismos de Participación Ciudadana</h3>
-                <p>Estudio de los procedimientos legales y requisitos formales que exige la ley estatutaria para activar los mecanismos constitucionales. Revisión práctica de la Acción de Tutela (Art. 86) como la herramienta más transformadora del sistema jurídico del país, permitiendo a cualquier persona acudir ante un juez de la república sin necesidad de abogado para frenar amenazas inminentes.</p>
-                <div class="sub-grid">
-                    <div class="sub-tag">Acción de Tutela (Art. 86)</div>
-                    <div class="sub-tag">Consultas Populares</div>
-                    <div class="sub-tag">Mecanismos de Control</div>
-                </div>
-            </div>
-        </div>
-
-        <!-- SECCIÓN 4: DATOS CLAVE -->
-        <div id="datos" class="tab-content">
-            <div class="facts-grid">
-                <div class="fact-box">
-                    <span class="id">#01_LA_SÉPTIMA_PAPELETA</span>
-                    <p>La Constitución de 1991 tuvo un origen tecnológico-social: el movimiento estudiantil introdujo un voto extra informal en las elecciones de 1990 para exigir una Asamblea Constituyente, demostrando el poder del procesamiento de la voluntad popular al margen de las estructuras rígidas tradicionales.</p>
-                </div>
-                <div class="fact-box">
-                    <span class="id">#02_CORTE_CONSTITUCIONAL</span>
-                    <p>Creada en 1991, esta corporación actúa como el compilador de seguridad del Estado. Realiza el control abstracto de los proyectos de ley aprobados por el Congreso para asegurar que no contengan incompatibilidades lógicas con la Carta Magna colombiana.</p>
-                </div>
-                <div class="fact-box">
-                    <span class="id">#03_JUSTICIA_DIGITAL</span>
-                    <p>El procesamiento y radicación de las acciones de tutela en Colombia migró a plataformas centralizadas de analítica de datos gestionadas por algoritmos. Esto conecta de forma directa el rendimiento del software de los servidores judiciales con la velocidad en la protección de los derechos humanos.</p>
-                </div>
-                <div class="fact-box">
-                    <span class="id">#04_ESTADO_LAICO</span>
-                    <p>A diferencia de la Constitución de 1886 que ponía al país bajo la protección de una religión oficial, la Carta del 91 instaló la neutralidad religiosa del Estado, garantizando plena libertad de cultos e igualdad ante la ley para todas las confesiones.</p>
-                </div>
-                <div class="fact-box">
-                    <span class="id">#05_VOTO_ELECTRÓNICO</span>
-                    <p>La registraduría y las reformas políticas debaten continuamente la implementación de sistemas criptográficos de votación. Esto plantea la necesidad de que los ingenieros de sistemas auditen el código fuente electoral para mitigar riesgos informáticos y blindar la soberanía popular.</p>
-                </div>
-                <div class="fact-box">
-                    <span class="id">#06_BLOQUE_DE_CONSTITUCIONALIDAD</span>
-                    <p>Es un concepto jurídico que estipula que los tratados internacionales sobre Derechos Humanos ratificados por Colombia tienen el mismo rango que la Constitución, actuando como librerías de datos externas integradas al núcleo del sistema legal.</p>
-                </div>
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        <p>[ UT_IDEAD // Ing. de Sistemas // Johan Puerto Correa &copy; 2026 ]</p>
-    </footer>
-
-    <!-- INTERACTIVIDAD DE LOS BOTONES -->
+    <!-- ================= MOTOR LOGICO JAVASCRIPT ================= -->
     <script>
+        // Cambiar entre Pestañas (Tabs) laterales
         function switchTab(event, tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
             
             event.currentTarget.classList.add('active');
             document.getElementById(tabId).classList.add('active');
+        }
+
+        // Simulación interactiva de Auditoría para la pestaña de Herramientas
+        function runAuditor() {
+            // Forzar el cambio de pestaña a la de Datos para mostrar la consola
+            document.querySelectorAll('.nav-btn').forEach((btn, idx) => {
+                if(idx === 3) btn.classList.add('active'); else btn.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.getElementById('datos').classList.add('active');
+
+            const log = document.getElementById('terminal-log');
+            log.innerHTML = "$ compilando_analisis_constitucional --verbose<br>> Buscando dependencias del kernel (CPC 1991)... listo.<br>";
+            
+            setTimeout(() => { log.innerHTML += "> Escaneando integridad del Artículo 4 (Supremacía)... OK.<br>"; }, 500);
+            setTimeout(() => { log.innerHTML += "> Verificando permisos de usuario (Derechos Fundamentales)... OK.<br>"; }, 1000);
+            setTimeout(() => { log.innerHTML += "> Auditando interfaces de participación (Art. 103)... OK.<br>"; }, 1500);
+            setTimeout(() => { log.innerHTML += "<span style='color: var(--accent)'>[EXITO]: Compilación completada. El portafolio cumple con los parámetros del IDEAD Universidad del Tolima.</span>"; }, 2000);
         }
     </script>
 </body>
