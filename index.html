@@ -4,434 +4,370 @@ HTML
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Constitución Política | Johan Puerto</title>
+    <title>Espacio Constitucional — Johan Puerto</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #e2e8f0;
-            --accent: #0284c7;
-            --accent-light: #e0f2fe;
-            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+            --surface-base: #f1f5f9;
+            --surface-panel: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --border-color: #cbd5e1;
+            --brand-color: #0284c7;
+            --brand-light: #f0f9ff;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
         }
 
-        /* Estilos Modo Oscuro */
-        body.dark-mode {
-            --bg-body: #0b0f19;
-            --bg-card: #111827;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-            --border: #1f2937;
-            --accent: #38bdf8;
-            --accent-light: rgba(56, 189, 248, 0.1);
-            --shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        body.dark-theme {
+            --surface-base: #090d16;
+            --surface-panel: #111827;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --border-color: #1f2937;
+            --brand-color: #38bdf8;
+            --brand-light: rgba(56, 189, 248, 0.08);
+            --shadow-sm: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.3s, border-color 0.3s; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--bg-body); color: var(--text-main); line-height: 1.6; }
+        * { margin: 0; padding: 0; box-sizing: border-box; transition: background-color 0.25s, border-color 0.25s; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: var(--surface-base); color: var(--text-primary); -webkit-font-smoothing: antialiased; }
 
-        /* NAVBAR SUPERIOR */
-        nav {
-            background-color: var(--bg-card);
-            border-bottom: 1px solid var(--border);
-            position: sticky; top: 0; z-index: 100;
-            box-shadow: var(--shadow);
+        /* HEADER REDISEÑADO (MINIMALISTA) */
+        .top-navbar {
+            background-color: var(--surface-panel);
+            border-bottom: 1px solid var(--border-color);
+            padding: 15px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky; top: 0; z-index: 10;
         }
-        .nav-container {
-            max-width: 1250px; margin: 0 auto; padding: 0 25px;
-            height: 70px; display: flex; justify-content: space-between; align-items: center;
-        }
-        .nav-logo { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 1.15rem; }
-        .nav-logo img { height: 28px; }
-        .nav-menu { display: flex; gap: 30px; list-style: none; }
-        .nav-link { 
-            color: var(--text-muted); text-decoration: none; font-weight: 500; font-size: 0.95rem; 
-            cursor: pointer; padding: 23px 0; border-bottom: 2px solid transparent;
-        }
-        .nav-link:hover, .nav-link.active { color: var(--accent); }
-        .nav-link.active { border-bottom-color: var(--accent); font-weight: 600; }
-        
-        .theme-toggle {
-            background: none; border: 1px solid var(--border); padding: 8px; border-radius: 50%;
-            cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--text-main);
-        }
+        .site-identity { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 1rem; color: var(--brand-color); }
+        .theme-control { background: var(--surface-base); border: 1px solid var(--border-color); padding: 8px 14px; border-radius: var(--radius-md); cursor: pointer; color: var(--text-primary); font-size: 0.85rem; font-weight: 500; display: flex; align-items: center; gap: 6px; }
 
-        /* DISEÑO DE CONTENIDO PRINCIPAL */
-        .main-wrapper {
-            max-width: 1250px; margin: 40px auto; padding: 0 25px;
-            display: grid; grid-template-columns: 1fr 350px; gap: 35px;
+        /* ARQUITECTURA DE GRID (INVERTIDA) */
+        .app-layout {
+            max-width: 1300px; margin: 30px auto; padding: 0 24px;
+            display: grid; grid-template-columns: 320px 1fr; gap: 30px;
         }
 
         @media (max-width: 968px) {
-            .main-wrapper { grid-template-columns: 1fr; }
+            .app-layout { grid-template-columns: 1fr; }
         }
 
-        /* VISTAS DE PESTAÑAS */
-        .tab-view { display: none; animation: fadeIn 0.3s ease-in-out forwards; }
-        .tab-view.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* JUMBOTRON / ENCABEZADO */
-        .jumbotron { text-align: center; padding: 20px 0 40px 0; max-width: 750px; margin: 0 auto; }
-        .jumbotron p { color: var(--text-muted); font-size: 1.05rem; line-height: 1.8; margin-bottom: 20px; }
-        .u-tags { display: flex; justify-content: center; gap: 20px; color: var(--text-muted); font-size: 0.9rem; }
-        .u-tags span { display: flex; align-items: center; gap: 6px; }
-
-        /* GRID DE ARTÍCULOS DESTACADOS */
-        .section-heading { font-size: 1.15rem; font-weight: 700; margin-bottom: 25px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-        .featured-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+        /* BANQUETA IZQUIERDA: PERFIL E INFORMACIÓN COMPACTA */
+        .meta-sidebar { display: flex; flex-direction: column; gap: 20px; }
         
-        .feature-card {
-            background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
-            padding: 30px; box-shadow: var(--shadow); position: relative; display: flex; flex-direction: column; justify-content: space-between;
+        .student-identity-card {
+            background-color: var(--surface-panel); border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg); padding: 25px; box-shadow: var(--shadow-sm);
         }
-        .icon-box {
-            width: 44px; height: 44px; background-color: var(--bg-body); border: 1px solid var(--border);
-            border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 20px;
-        }
-        .feature-card h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; }
-        .feature-card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; }
-        .feature-card ul { list-style: none; color: var(--text-muted); font-size: 0.9rem; margin-bottom: 25px; }
-        .feature-card ul li { margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-        .feature-card ul li::before { content: "•"; color: var(--accent); font-weight: bold; }
+        .user-avatar { width: 50px; height: 50px; background: var(--brand-light); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 15px; }
+        .student-identity-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 4px; }
+        .student-identity-card .career { font-size: 0.88rem; color: var(--brand-color); font-weight: 600; margin-bottom: 15px; }
         
-        .action-btn {
-            background-color: transparent; border: none; color: var(--accent); font-weight: 600;
-            font-size: 0.95rem; cursor: pointer; display: flex; align-items: center; gap: 5px; align-self: flex-start;
-        }
-        .action-btn:hover { text-decoration: underline; }
+        .academic-details { border-top: 1px solid var(--border-color); padding-top: 15px; display: flex; flex-direction: column; gap: 12px; }
+        .detail-row { font-size: 0.85rem; }
+        .detail-row span { display: block; color: var(--text-secondary); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 2px; }
+        .detail-row p { font-weight: 600; color: var(--text-primary); }
 
-        /* SIDEBAR DE PERFIL DERECHO */
-        .profile-sidebar { display: flex; flex-direction: column; gap: 25px; }
-        .profile-card, .info-card {
-            background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 16px;
-            padding: 30px; box-shadow: var(--shadow);
-        }
-        .avatar-box {
-            width: 70px; height: 70px; background-color: var(--bg-body); border: 1px solid var(--border);
-            border-radius: 50%; margin: 0 auto 15px auto; display: flex; align-items: center; justify-content: center;
-            font-size: 2rem; color: var(--text-muted);
-        }
-        .profile-card h4 { text-align: center; font-size: 1.2rem; font-weight: 700; margin-bottom: 6px; }
-        .profile-card .subtitle { text-align: center; color: var(--accent); font-size: 0.9rem; font-weight: 600; margin-bottom: 4px; }
-        .profile-card .semestre { text-align: center; color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px; }
-        .profile-card .u-name { text-align: center; border-top: 1px solid var(--border); padding-top: 15px; color: var(--text-muted); font-size: 0.85rem; }
+        /* CONTENEDOR DERECHO: INTERFAZ DINÁMICA */
+        .main-workspace { display: flex; flex-direction: column; gap: 25px; }
 
-        .info-list { list-style: none; }
-        .info-item { padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 0.95rem; }
-        .info-item:last-child { border-bottom: none; padding-bottom: 0; }
-        .info-item:first-child { padding-top: 0; }
-        .info-item span { display: block; font-size: 0.8rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; margin-bottom: 2px; }
-        .info-item strong { color: var(--text-main); font-weight: 600; }
-
-        /* ACORDEONES EXPANDIBLES (PREGUNTAS Y UNIDADES) */
-        .accordion-wrapper { display: flex; flex-direction: column; gap: 15px; }
-        .accordion-item {
-            background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-            box-shadow: var(--shadow); overflow: hidden;
+        /* SELECCIÓN DE PANELES (TABS TIPO DASHBOARD) */
+        .tab-navigator {
+            background-color: var(--surface-panel); border: 1px solid var(--border-color);
+            padding: 6px; border-radius: var(--radius-md); display: inline-flex; gap: 5px; align-self: flex-start;
         }
-        .accordion-trigger {
-            width: 100%; padding: 22px 25px; background: none; border: none; text-align: left;
-            font-size: 1.1rem; font-weight: 600; color: var(--text-main); cursor: pointer;
+        .panel-trigger {
+            background: transparent; border: none; padding: 10px 18px; border-radius: 8px;
+            color: var(--text-secondary); font-weight: 600; font-size: 0.9rem; cursor: pointer;
+        }
+        .panel-trigger:hover { color: var(--text-primary); }
+        .panel-trigger.active-panel { background-color: var(--brand-color); color: #ffffff; }
+
+        /* BLOQUES DE INFORMACIÓN DE CADA PESTAÑA */
+        .view-panel { display: none; animation: viewFade 0.25s ease-out forwards; }
+        .view-panel.active-panel { display: block; }
+        @keyframes viewFade { from { opacity: 0; transform: scale(0.99); } to { opacity: 1; transform: scale(1); } }
+
+        /* BIENVENIDA */
+        .intro-container { background-color: var(--surface-panel); border: 1px solid var(--border-color); border-radius: var(--radius-lg); padding: 35px; box-shadow: var(--shadow-sm); }
+        .intro-container h1 { font-size: 1.8rem; margin-bottom: 15px; letter-spacing: -0.5px; }
+        .intro-container p { color: var(--text-secondary); font-size: 1rem; line-height: 1.7; text-align: justify; margin-bottom: 20px; }
+        
+        .overview-cards-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 25px; }
+        @media (max-width: 640px) { .overview-cards-row { grid-template-columns: 1fr; } }
+        
+        .summary-box { background: var(--surface-base); border: 1px solid var(--border-color); padding: 20px; border-radius: var(--radius-md); cursor: pointer; }
+        .summary-box:hover { border-color: var(--brand-color); }
+        .summary-box h4 { font-size: 1.05rem; margin-bottom: 5px; display: flex; align-items: center; gap: 8px; }
+        .summary-box p { font-size: 0.88rem; margin: 0; color: var(--text-secondary); }
+
+        /* DISEÑO DE ACORDEONES MINIMALISTAS */
+        .accordion-stack { display: flex; flex-direction: column; gap: 12px; }
+        .content-node { background-color: var(--surface-panel); border: 1px solid var(--border-color); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); }
+        
+        .node-header {
+            width: 100%; padding: 20px 25px; background: none; border: none; text-align: left;
+            font-size: 1.05rem; font-weight: 600; color: var(--text-primary); cursor: pointer;
             display: flex; justify-content: space-between; align-items: center; gap: 15px;
         }
-        .accordion-trigger:hover { background-color: rgba(0,0,0,0.01); }
-        .accordion-trigger::after { content: "＋"; font-size: 1.2rem; color: var(--text-muted); transition: transform 0.2s; }
+        .node-header:hover { background-color: var(--brand-light); }
+        .node-header::after { content: "↓"; font-family: 'JetBrains Mono', monospace; font-size: 1rem; color: var(--text-secondary); transition: transform 0.2s; }
         
-        .accordion-item.open .accordion-trigger::after { content: "—"; color: var(--accent); }
-        .accordion-item.open .accordion-trigger { border-bottom: 1px solid var(--border); color: var(--accent); }
+        .content-node.expanded .node-header::after { transform: rotate(180deg); color: var(--brand-color); }
+        .content-node.expanded .node-header { border-bottom: 1px solid var(--border-color); }
 
-        .accordion-panel { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; background-color: rgba(0,0,0,0.005); }
-        .accordion-content { padding: 25px; color: var(--text-main); font-size: 0.98rem; line-height: 1.8; text-align: justify; }
-        .accordion-content p { margin-bottom: 15px; }
-        .accordion-content p:last-child { margin-bottom: 0; }
+        .node-body { max-height: 0; overflow: hidden; transition: max-height 0.25s ease-out; }
+        .node-inner-text { padding: 25px; font-size: 0.98rem; line-height: 1.75; color: var(--text-primary); text-align: justify; }
+        .node-inner-text p { margin-bottom: 15px; }
+        .node-inner-text p:last-child { margin-bottom: 0; }
 
-        .sys-tag-list { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 15px; }
-        .sys-tag { font-family: 'JetBrains Mono', monospace; font-size: 0.78rem; background: var(--accent-light); color: var(--accent); padding: 4px 10px; border-radius: 6px; font-weight: 500; }
+        .tag-pill-container { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 15px; }
+        .tag-pill { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; background: var(--brand-light); color: var(--brand-color); padding: 3px 8px; border-radius: 4px; }
 
-        footer { max-width: 1250px; margin: 60px auto 30px auto; padding: 0 25px; text-align: center; color: var(--text-muted); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 25px; }
+        footer { text-align: center; padding: 40px 24px; color: var(--text-secondary); font-size: 0.8rem; border-top: 1px solid var(--border-color); margin-top: 50px; }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="nav-container">
-            <div class="nav-logo">
-                <span style="color: var(--accent);">🏛️</span> Constitución Política
-            </div>
-            <ul class="nav-menu">
-                <li><a class="nav-link active" onclick="navigateTab('inicio-tab', this)">Inicio</a></li>
-                <li><a class="nav-link" onclick="navigateTab('preguntas-tab', this)">Preguntas Generadoras</a></li>
-                <li><a class="nav-link" onclick="navigateTab('unidades-tab', this)">Unidades Temáticas</a></li>
-            </ul>
-            <button class="theme-toggle" onclick="toggleTheme()" title="Cambiar Tema">🌓</button>
-        </div>
-    </nav>
+    <!-- CONTROL TOP NAVBAR -->
+    <header class="top-navbar">
+        <div class="site-identity">JOHAN_PUERTO // PORTAFOLIO_UT</div>
+        <button class="theme-control" onclick="switchTheme()">🌓 Alternar Vista</button>
+    </header>
 
-    <div class="container main-wrapper">
+    <!-- INTERFAZ PRINCIPAL -->
+    <div class="app-layout">
         
-        <div class="content-column">
-
-            <div id="inicio-tab" class="tab-view active">
-                <div class="jumbotron">
-                    <p>Este blog recopila las reflexiones, análisis, preguntas generadoras y temas desarrollados durante el curso de Constitución Política, como parte del programa académico de la Universidad del Tolima IDEAD.</p>
-                    <div class="u-tags">
-                        <span>🏫 Universidad del Tolima</span>
-                        <span>📦 IDEAD</span>
-                        <span>📍 Bogotá, Colombia</span>
-                    </div>
-                </div>
-
-                <h2 class="section-heading">Artículos destacados</h2>
-                <div class="featured-grid">
-                    <div class="feature-card">
-                        <div>
-                            <div class="icon-box">✍️</div>
-                            <h3>Preguntas Generadoras</h3>
-                            <p>Análisis conceptual y respuestas argumentadas a las preguntas planteadas en cada tutoría.</p>
-                            <ul>
-                                <li>5 preguntas desarrolladas</li>
-                                <li>Análisis de la Constitución de 1991</li>
-                                <li>Derechos fundamentales y participación</li>
-                            </ul>
-                        </div>
-                        <button class="action-btn" onclick="document.querySelectorAll('.nav-link')[1].click()">Leer artículo →</button>
-                    </div>
-
-                    <div class="feature-card">
-                        <div>
-                            <div class="icon-box">📘</div>
-                            <h3>Unidades Temáticas</h3>
-                            <p>Desarrollo y desglose de cada unidad académica abordada en las tutorías del semestre.</p>
-                            <ul>
-                                <li>5 unidades temáticas</li>
-                                <li>Conceptos clave y reflexiones</li>
-                                <li>Análisis institucional y normativo</li>
-                            </ul>
-                        </div>
-                        <button class="action-btn" onclick="document.querySelectorAll('.nav-link')[2].click()">Leer artículo →</button>
-                    </div>
-                </div>
-            </div>
-
-            <div id="preguntas-tab" class="tab-view">
-                <h2 class="section-heading">Preguntas Generadoras (5 Desarrolladas)</h2>
+        <!-- COLUMNA IZQUIERDA (NUEVA UBICACIÓN DE METADATOS) -->
+        <aside class="meta-sidebar">
+            <div class="student-identity-card">
+                <div class="user-avatar">👨‍💻</div>
+                <h3>Johan Puerto Correa</h3>
+                <p class="career">Ingeniería de Sistemas</p>
                 
-                <div class="accordion-wrapper">
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">¿Por qué la CPC se fundamenta en la defensa de derechos y la promoción de mecanismos de participación ciudadana?</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>La Constitución Política de Colombia (CPC) de 1991 se fundamenta en la defensa de derechos porque sustituyó el antiguo modelo formalista por un <strong>Estado Social de Derecho</strong> centrado en la dignidad humana. Al declarar los derechos humanos como inalienables, la Carta obliga al Estado a intervenir de forma activa para asegurar el bienestar real de la comunidad.</p>
-                                <p>Sin embargo, para evitar que los derechos queden impresos en el papel como promesas vacías, la CPC implementó de manera simbiótica los canales de participación ciudadana directa (Artículo 103). Estos mecanismos actúan como contrapesos de poder, permitiendo a la ciudadanía ejercer veeduría y decidir el curso político del país de manera directa.</p>
-                            </div>
-                        </div>
+                <div class="academic-details">
+                    <div class="detail-row">
+                        <span>Programa Académico</span>
+                        <p>Semestre IV — IDEAD</p>
                     </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">¿Qué son los principios básicos de la democracia y cómo identificar los derechos fundamentales, sociales, económicos y culturales?</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>Los principios básicos de la democracia radican en el pluralismo ideológico, la soberanía popular, la igualdad real ante la ley y la alternancia de poder público. Sobre estas bases, el ordenamiento jurídico clasifica las garantías ciudadanas en generaciones:</p>
-                                <p>• <strong>Derechos Fundamentales (Primera Generación):</strong> Son inherentes a la condición humana e indispensables para la libertad individual. Se identifican porque son de aplicación inmediata y protegen valores axiológicos supremos como la vida (Art. 11), el debido proceso (Art. 29), la intimidad y el buen nombre.</p>
-                                <p>• <strong>Derechos Sociales, Económicos y Culturales - DESC (Segunda Generación):</strong> Tienen un carácter de bienestar colectivo. Se identifican porque requieren la asignación presupuestal del Estado y el diseño de políticas públicas específicas para материаizarse, tales como el acceso a la salud, la vivienda digna y la educación superior.</p>
-                            </div>
-                        </div>
+                    <div class="detail-row">
+                        <span>Materia</span>
+                        <p>Constitución Política</p>
                     </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">Cuáles fueron las continuidades y rupturas de los cambios constitucionales de Colombia?</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>A lo largo de su historia, el constitucionalismo colombiano registra notables <strong>continuidades</strong>: la mantención ininterrumpida de la tradición republicana presidencialista, la división tripartita del poder público y la retención del modelo político de República unitaria centralizada en el plano geográfico.</p>
-                                <p>Por el contrario, el año 1991 configuró una profunda <strong>ruptura institucional</strong> frente al viejo esquema de 1886. Se disolvió el monopolio religioso y político para dar paso a la libertad de cultos y al pluralismo democrático. Se reconoció formalmente que Colombia es una nación multiétnica y pluricultural y se fundó la Acción de Tutela (Art. 86), empoderando al ciudadano común con un recurso preferente ante los jueces de la nación.</p>
-                            </div>
-                        </div>
+                    <div class="detail-row">
+                        <span>Cátedra Dirigida Por</span>
+                        <p>Laura Fernanda Rodríguez Méndez</p>
                     </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">¿De qué manera ha evolucionado la interpretación del Estado y cómo se entiende un Estado constitucional?</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>La interpretación dogmática del Estado evolucionó marcadamente desde esquemas absolutistas (donde el monarca concentraba de forma discrecional todo el poder) y Estados meramente legales de derecho (donde el gobierno solo debía seguir la ley al pie de la letra, sin importar la justicia de la norma) hacia el concepto moderno de **Estado Constitucional**.</p>
-                                <p>Un Estado Constitucional se entiende como aquel donde la Constitución actúa como la norma jerárquica suprema (Norma de normas, Art. 4). Todas las ramas políticas y fuerzas públicas están totalmente sometidas a las directrices de la carta fundamental, garantizando que el derecho no sirva como herramienta de abuso de las mayorías de turno frente a los derechos inalienables de las minorías.</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">¿Cómo interpretar el concepto de política y sus repercusiones en el Estado Colombiano?</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>La política debe interpretarse científicamente como la actividad colectiva organizada orientada a canalizar diferencias, administrar los recursos de la nación y arbitrar los consensos de una comunidad. Lejos de limitarse a los partidos tradicionales o a periodos de campaña electoral, la política constituye el motor que dinamiza la asignación de presupuestos estatales.</p>
-                                <p>En Colombia, las decisiones del ejercicio político repercuten directamente en variables de alto impacto para la sociedad civil, tales como la asignación de recursos a la educación pública, el fomento de la infraestructura de conectividad digital y el alcance del control fiscal y social sobre los gobernantes.</p>
-                            </div>
-                        </div>
+                    <div class="detail-row">
+                        <span>Sede y Año</span>
+                        <p>Bogotá, Colombia (2026)</p>
                     </div>
                 </div>
             </div>
+        </aside>
 
-            <div id="unidades-tab" class="tab-view">
-                <h2 class="section-heading">Unidades Temáticas Desarrolladas</h2>
-                
-                <div class="accordion-wrapper">
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">Unidad 1: Conceptos Fundamentales de la Política</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>La política es una actividad e institución transversal indispensable para el correcto ordenamiento y coexistencia pacífica de las sociedades complejas. Su estudio nos permite examinar cómo se legitima el ejercicio del poder público y de qué manera las comunidades diseñan canales institucionales viables para la resolución pacífica de controversias cotidianas.</p>
-                                <div class="sys-tag-list">
-                                    <span class="sys-tag">Política Humana</span>
-                                    <span class="sys-tag">Ejercicio del Poder</span>
-                                    <span class="sys-tag">Cohesión Social</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">Unidad 2: Estado y Organización Política de Colombia</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>El Estado se erige como la corporación político-jurídica encargada de velar por la integridad, la convivencia pacífica y el desarrollo integral de la población nacional. Su estructura orgánica en Colombia se compone de tres Ramas del Poder (Ejecutiva, Legislativa y Judicial), complementadas por órganos de control independientes (Procuraduría, Contraloría, Defensoría) que actúan de forma autónoma.</p>
-                                <div class="sys-tag-list">
-                                    <span class="sys-tag">Ramas de Poder</span>
-                                    <span class="sys-tag">Órganos de Control</span>
-                                    <span class="sys-tag">Soberanía</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">Unidad 3: Constitucionalismo y Estado Social de Derecho</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>El constitucionalismo moderno surge históricamente como una barrera técnica diseñada para contener los excesos del poder estatal absoluto. A través del modelo del Estado Social de Derecho, las instituciones no solo asumen un rol de vigilancia, sino que se comprometen de manera prestacional activa a proveer equidad, acceso a servicios mínimos esenciales y vida digna a los grupos más vulnerables.</p>
-                                <div class="sys-tag-list">
-                                    <span class="sys-tag">Bloque Jurídico</span>
-                                    <span class="sys-tag">Garantismo</span>
-                                    <span class="sys-tag">Límites de Autoridad</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">Unidad 4: Democracia y Derechos Fundamentales</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>La estabilidad de un entorno democrático depende directamente del respeto incondicional por los derechos y las libertades del ciudadano. Esta unidad profundiza en el nexo entre el pluralismo social y la existencia de mecanismos constitucionales eficientes que garanticen el libre ejercicio del voto, la protesta pacífica y la protección de las garantías individuales mínimas.</p>
-                                <div class="sys-tag-list">
-                                    <span class="sys-tag">Libertad de Expresión</span>
-                                    <span class="sys-tag">Pluralismo</span>
-                                    <span class="sys-tag">Garantías Civiles</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="accordion-item">
-                        <button class="accordion-trigger" onclick="toggleAccordion(this)">Unidad 5: Mecanismos de Participación Ciudadana</button>
-                        <div class="accordion-panel">
-                            <div class="accordion-content">
-                                <p>La promulgación de la Carta de 1991 profundizó sustancialmente el modelo democrático dotando al pueblo de herramientas vinculantes. Se estudian los requerimientos formales y alcances normativos del Referendo, la Consulta Popular y el Cabildo Abierto, analizando de forma preferente la Acción de Tutela (Art. 86) como el recurso de amparo directo más eficaz de la ciudadanía colombiana.</p>
-                                <div class="sys-tag-list">
-                                    <span class="sys-tag">Acción de Tutela</span>
-                                    <span class="sys-tag">Consulta Popular</span>
-                                    <span class="sys-tag">Soberanía Popular</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-
-        <div class="profile-sidebar">
+        <!-- COLUMNA DERECHA (NUEVA UBICACIÓN DE CONTENIDOS Y CONTROLES) -->
+        <main class="main-workspace">
             
-            <div class="profile-card">
-                <div class="avatar-box">👤</div>
-                <h4>Johan Puerto Correa</h4>
-                <div class="subtitle">Ingeniería de Sistemas</div>
-                <div class="semestre">Semestre IV</div>
-                <div class="u-name">Universidad del Tolima · IDEAD</div>
+            <!-- SELECTOR DE PESTAÑAS INTEGRADO -->
+            <div class="tab-navigator">
+                <button class="panel-trigger active-panel" onclick="changePanel('bienvenida-panel', this)">Introducción</button>
+                <button class="panel-trigger" onclick="changePanel('nodos-panel', this)">Nodos Críticos</button>
+                <button class="panel-trigger" onclick="changePanel('modulos-panel', this)">Ejes Temáticos</button>
             </div>
 
-            <div class="info-card">
-                <h3 style="font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-muted); margin-bottom: 20px;">Información Académica</h3>
-                <ul class="info-list">
-                    <li class="info-item">
-                        <span>Asignatura</span>
-                        <strong>Constitución Política</strong>
-                    </li>
-                    <li class="info-item">
-                        <span>Docente</span>
-                        <strong>Laura Fernanda Rodríguez Méndez</strong>
-                    </li>
-                    <li class="info-item">
-                        <span>Ciudad</span>
-                        <strong>Bogotá, Colombia</strong>
-                    </li>
-                    <li class="info-item">
-                        <span>Periodo</span>
-                        <strong>2026</strong>
-                    </li>
-                </ul>
+            <!-- PANEL 1: INTRODUCCIÓN -->
+            <div id="bienvenida-panel" class="view-panel active-panel">
+                <div class="intro-container">
+                    <h1>Sistematización de Conocimiento Ciudadano</h1>
+                    <p>Este espacio digital aloja las valoraciones e investigaciones críticas recopiladas a lo largo del proceso educativo en el núcleo de Constitución Política. El propósito del espacio no es repetir de forma memorística la norma escrita, sino evaluar el ordenamiento legal como una estructura funcional que define el comportamiento y los privilegios de los ciudadanos en la sociedad civil.</p>
+                    <p><strong>Perspectiva Integradora:</strong> Evaluando la materia a partir de los fundamentos de la ingeniería, la norma fundamental actúa igual que el Kernel del sistema lógico de un equipo. Determina las instrucciones autorizadas, mientras que el resto de los decretos y legislaciones operan como software instalado que jamás debe corromper la estabilidad del sistema matriz.</p>
+                    
+                    <div class="overview-cards-row">
+                        <div class="summary-box" onclick="document.querySelectorAll('.panel-trigger')[1].click()">
+                            <h4>📌 Nodos de Análisis</h4>
+                            <p>Cinco formulaciones analíticas sobre derechos, transiciones del Estado y transformaciones históricas en el territorio.</p>
+                        </div>
+                        <div class="summary-box" onclick="document.querySelectorAll('.panel-trigger')[2].click()">
+                            <h4>📚 Bloques Académicos</h4>
+                            <p>Cinco unidades curriculares que desglosan la separación de funciones públicas y el control social de los ciudadanos.</p>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-        </div>
+            <!-- PANEL 2: NODOS CRÍTICOS -->
+            <div id="nodos-panel" class="view-panel">
+                <div class="accordion-stack">
+                    <!-- Nodo 1 -->
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">1. Fundamento de Derechos y Mecanismos de Inclusión Ciudadana</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>La Constitución Política de Colombia sitúa en la cúspide institucional el respeto y salvaguarda de la condición humana. Con el propósito de rebasar la noción de una declaración de intenciones abstracta, la Carta del 91 instaló en su núcleo operativo los mecanismos de participación ciudadana formalizados en el Artículo 103 (tales como el sufragio, plebiscitos, consultas y referendos).</p>
+                                <p>Estas herramientas le otorgan a la sociedad civil la facultad legal de intervenir directamente sobre la gestión pública y equilibrar los flujos de poder gubernamental.</p>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Nodo 2 -->
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">2. Estructura Democrática y Diferenciación de Garantías Legales</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>El correcto funcionamiento de la democracia constitucional exige la existencia de pluralismo ideológico e igualdad ante los tribunales. Dentro de esta organización, las prerrogativas del ciudadano se estructuran de forma precisa:</p>
+                                <p>• <strong>Garantías Civiles Inmediatas (Fundamentales):</strong> Protegen el sustrato básico de la persona y exigen un cumplimiento automático, destacando el debido proceso legal (Art. 29) y la inviolabilidad de la vida.</p>
+                                <p>• <strong>Derechos de Bienestar Colectivo (DESC):</strong> Engloban el acceso a salud, formación educativa y entornos habitacionales dignos. Demandan la acción material del Estado y la inyección de recursos del presupuesto público.</p>
+                                <div class="tag-pill-container">
+                                    <span class="tag-pill">Privacidad Informática</span>
+                                    <span class="tag-pill">Garantías Civiles</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nodo 3 -->
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">3. Transformaciones Constitucionales: Permanencias y Fracturas en la Historia</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>La trayectoria institucional de Colombia evidencia ciertos elementos continuos, tales como el modelo republicano centralizado y la preservación de las tres funciones clásicas del poder público. Pese a esto, la transición de 1991 rompió drásticamente el paradigma imperante de la carta de 1886.</p>
+                                <p>Se transformó un Estado cerrado y de confesión oficial en un Estado Social de Derecho laico, de apertura democrática y caracterizado por el amparo ágil e inmediato que provee la Acción de Tutela (Art. 86) a cualquier ciudadano.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nodo 4 -->
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">4. Evolución Hacia el Concepto de Estado Constitucional Moderno</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>La comprensión del Estado mutó desde regímenes personalistas y centralizados (donde las órdenes del gobernante no poseían límites externos) hacia la concepción del Estado Constitucional. En esta dimensión contemporánea, la Constitución funciona como la regla de mayor jerarquía del ordenamiento. Toda autoridad pública se subordina de manera estricta a sus directrices, impidiendo que las mayorías parlamentarias vulneren los derechos fundamentales de las minorías de la comunidad.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Nodo 5 -->
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">5. Concepción Científica de la Política y su Efecto en el Territorio</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>La política debe interpretarse como la disciplina de mediación social responsable de canalizar las diferencias, estructurar la representatividad legítima y gestionar el erario común. En el plano colombiano, la dirección política influye de manera decisiva en el desarrollo tecnológico de las regiones, la inversión social y la transparencia en los procesos de auditoría del Estado.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PANEL 3: EJES TEMÁTICOS -->
+            <div id="modulos-panel" class="view-panel">
+                <div class="accordion-stack">
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">Eje 1: Conceptos Rectores de la Ciencia Política</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>Apropiación analítica de la política como manifestación social indispensable para la gobernanza colectiva. Exploración de las dinámicas del poder legítimo y los canales formales de mediación.</p>
+                                <div class="tag-pill-container"><span class="tag-pill">Poder Social</span><span class="tag-pill">Teoría Política</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">Eje 2: Arquitectura del Estado y Poderes en Colombia</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>Estudio anatómico de la división funcional pública (Ejecutiva, Legislativa, Judicial) complementada por las entidades de control fiscal y disciplinario de carácter independiente.</p>
+                                <div class="tag-pill-container"><span class="tag-pill">Poderes Públicos</span><span class="tag-pill">Veeduría Fiscal</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">Eje 3: El Paradigma del Estado Social de Derecho</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>Análisis del giro garantista del constitucionalismo moderno que mandata la intervención material de las instituciones públicas para mitigar las asimetrías y desigualdades sociales.</p>
+                                <div class="tag-pill-container"><span class="tag-pill">Garantismo</span><span class="tag-pill">Equidad Social</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">Eje 4: Ejercicio Democrático y Salvaguardas Civiles</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>Evaluación de las libertades ciudadanas fundamentales como el prerrequisito indispensable para procesar elecciones legítimas, transparentes y de carácter plural.</p>
+                                <div class="tag-pill-container"><span class="tag-pill">Derechos Civiles</span><span class="tag-pill">Pluralismo</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="content-node">
+                        <button class="node-header" onclick="triggerAccordion(this)">Eje 5: Herramientas Jurídicas de Participación Directa</button>
+                        <div class="node-body">
+                            <div class="node-inner-text">
+                                <p>Compilación operacional de los recursos e iniciativas al alcance de la población civil para salvaguardar sus derechos, haciendo énfasis en el alcance ágil de la Acción de Tutela.</p>
+                                <div class="tag-pill-container"><span class="tag-pill">Acción de Tutela</span><span class="tag-pill">Soberanía Ciudadana</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </main>
     </div>
 
+    <!-- FOOTER REDISEÑADO -->
     <footer>
-        <p>&copy; 2026 Portafolio de Constitución Política — Johan Puerto Correa. Ingeniería de Sistemas, Universidad del Tolima IDEAD.</p>
+        <p>Sustentación de Portafolio Académico — Johan Puerto Correa. Ingeniería de Sistemas, UT - IDEAD. 2026.</p>
     </footer>
 
+    <!-- LÓGICA DE CONTROL (JS ALTERNADO) -->
     <script>
-        // Sistema de cambio de pestañas superior (Tabs)
-        function navigateTab(tabId, element) {
-            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
-            document.querySelectorAll('.tab-view').forEach(view => view.classList.remove('active'));
+        // Cambiar paneles principales
+        function changePanel(panelId, btnElement) {
+            document.querySelectorAll('.panel-trigger').forEach(b => b.classList.remove('active-panel'));
+            document.querySelectorAll('.view-panel').forEach(v => v.classList.remove('active-panel'));
             
-            element.classList.add('active');
-            document.getElementById(tabId).classList.add('active');
-            
-            // Cerrar todos los acordeones automáticamente al cambiar de pestaña
-            document.querySelectorAll('.accordion-item').forEach(item => {
-                item.classList.remove('open');
-                item.querySelector('.accordion-panel').style.maxHeight = null;
+            btnElement.classList.add('active-panel');
+            document.getElementById(panelId).classList.add('active-panel');
+
+            // Resetear acordeones al saltar de pestaña
+            document.querySelectorAll('.content-node').forEach(node => {
+                node.classList.remove('expanded');
+                node.querySelector('.node-body').style.maxHeight = null;
             });
         }
 
-        // Sistema de Acordeones que abren y cierran módulos
-        function toggleAccordion(button) {
-            const item = button.parentElement;
-            const panel = button.nextElementSibling;
+        // Desplegar y contraer acordeones de información
+        function triggerAccordion(button) {
+            const currentNode = button.parentElement;
+            const currentBody = button.nextElementSibling;
             
-            if (item.classList.contains('open')) {
-                item.classList.remove('open');
-                panel.style.maxHeight = null;
+            if (currentNode.classList.contains('expanded')) {
+                currentNode.classList.remove('expanded');
+                currentBody.style.maxHeight = null;
             } else {
-                // Opcional: Cerrar otros acordeones abiertos de la misma sección
-                item.parentElement.querySelectorAll('.accordion-item').forEach(i => {
-                    i.classList.remove('open');
-                    const p = i.querySelector('.accordion-panel');
-                    if(p) p.style.maxHeight = null;
+                // Cerrar hermanos de la misma sección
+                currentNode.parentElement.querySelectorAll('.content-node').forEach(n => {
+                    n.classList.remove('expanded');
+                    const b = n.querySelector('.node-body');
+                    if(b) b.style.maxHeight = null;
                 });
                 
-                item.classList.add('open');
-                panel.style.maxHeight = panel.scrollHeight + "px";
+                currentNode.classList.add('expanded');
+                currentBody.style.maxHeight = currentBody.scrollHeight + "px";
             }
         }
 
-        // Interruptor del Modo Oscuro
-        function toggleTheme() {
-            document.body.classList.toggle('dark-mode');
+        // Alternar el tema visual
+        function switchTheme() {
+            document.body.classList.toggle('dark-theme');
         }
     </script>
 </body>
